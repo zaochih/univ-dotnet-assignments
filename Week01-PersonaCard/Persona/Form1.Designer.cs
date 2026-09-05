@@ -58,7 +58,6 @@
             this.label2.Size = new System.Drawing.Size(62, 31);
             this.label2.TabIndex = 1;
             this.label2.Text = "姓名";
-            this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
             // label3
             // 
@@ -70,7 +69,6 @@
             this.label3.Size = new System.Drawing.Size(82, 24);
             this.label3.TabIndex = 2;
             this.label3.Text = "Caozhi Li";
-            this.label3.Click += new System.EventHandler(this.label3_Click);
             // 
             // label4
             // 
@@ -93,7 +91,6 @@
             this.label5.Size = new System.Drawing.Size(62, 31);
             this.label5.TabIndex = 3;
             this.label5.Text = "学号";
-            this.label5.Click += new System.EventHandler(this.label5_Click);
             // 
             // label6
             // 
@@ -106,7 +103,6 @@
             this.label6.TabIndex = 6;
             this.label6.Text = "25计算机科学与技术2班";
             this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.label6.Click += new System.EventHandler(this.label6_Click);
             // 
             // label7
             // 
@@ -117,7 +113,6 @@
             this.label7.Size = new System.Drawing.Size(62, 31);
             this.label7.TabIndex = 5;
             this.label7.Text = "班级";
-            this.label7.Click += new System.EventHandler(this.label7_Click);
             // 
             // pictureBox1
             // 
@@ -144,7 +139,6 @@
             this.Controls.Add(this.label1);
             this.Name = "Form1";
             this.Text = "Persona";
-            this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
