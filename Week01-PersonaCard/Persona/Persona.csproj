@@ -9,6 +9,8 @@
     <RootNamespace>Persona</RootNamespace>
     <AssemblyName>Persona</AssemblyName>
     <DefaultItemExcludes>$(DefaultItemExcludes);**/._*</DefaultItemExcludes>
+    <ApplicationHighDpiMode>SystemAware</ApplicationHighDpiMode>
+    <ForceDesignerDpiUnaware>true</ForceDesignerDpiUnaware>
   </PropertyGroup>
 
   <ItemGroup>
