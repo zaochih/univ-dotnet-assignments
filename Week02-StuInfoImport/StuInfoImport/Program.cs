@@ -10,7 +10,7 @@ namespace StuInfoImport
     internal class Program
     {
         static string stuName;
-        static int stuId;
+        static Int64 stuId;
         static int stuAge;
         static double litratureScore;
         static double advancedMathScore;
@@ -21,7 +21,7 @@ namespace StuInfoImport
             Console.Write("请输入姓名：");
             stuName = Console.ReadLine();
             Console.Write("请输入学号：");
-            int.TryParse(Console.ReadLine(), out stuId);
+            Int64.TryParse(Console.ReadLine(), out stuId);
             Console.Write("请输入年龄：");
             int.TryParse(Console.ReadLine(), out stuAge);
 
