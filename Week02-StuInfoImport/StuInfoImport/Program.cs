@@ -31,7 +31,7 @@ namespace StuInfoImport
         /// <param name="prompt">在控制台提供给用户的输入提示</param>
         /// <param name="currentValue">默认值</param>
         /// <param name="isEdit">标记本次调用是否为编辑用途（编辑用途下空输入或空格输入不修改原始值）</param>
-        /// <returns></returns>
+        /// <returns>返回一个值，将该值赋给对应参数。在编辑模式下，如果输入为空或全为空格，则返回值等于原始值。</returns>
         static T ImportUtil<T>(string prompt, T currentValue, bool isEdit)
         {
             Console.Write(prompt);
