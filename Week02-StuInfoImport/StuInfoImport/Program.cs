@@ -21,7 +21,7 @@ namespace StuInfoImport
             public double sum => litratureScore + advancedMathScore + progDesignScore;
             public double avg => sum / 3.0;
         }
-        static Student currentStudent = null;
+        static List<Student> students = new List<Student>();
 
         #region 导入工具方法
         /// <summary>
@@ -60,13 +60,24 @@ namespace StuInfoImport
         /// <param name="isEdit">标记本次调用是否为编辑。</param>
         static void StudentInfoImport(bool isEdit)
         {
-            currentStudent.name = ImportUtil("请输入姓名：", currentStudent.name, isEdit);
+            Student currentStudent = new Student();
+
+            string nameString = ImportUtil("请输入姓名：", currentStudent.name, isEdit);
+            while (string.IsNullOrWhiteSpace(nameString))
+            {
+                Console.WriteLine("[输入无效] 姓名不能为空。");
+                Console.WriteLine();
+                nameString = ImportUtil("请输入姓名：", currentStudent.name, isEdit);
+            }
+            currentStudent.name = nameString;
             currentStudent.id = ImportUtil("请输入学号：", currentStudent.id, isEdit);
             currentStudent.age = ImportUtil("请输入年龄：", currentStudent.age, isEdit);
 
             currentStudent.litratureScore = ImportUtil("请输入大学语文成绩：", currentStudent.litratureScore, isEdit);
             currentStudent.advancedMathScore = ImportUtil("请输入高等数学成绩：", currentStudent.advancedMathScore, isEdit);
             currentStudent.progDesignScore = ImportUtil("请输入程序设计成绩：", currentStudent.progDesignScore, isEdit);
+
+            students.Add(currentStudent);
 
             Console.Clear();
 
@@ -78,37 +89,44 @@ namespace StuInfoImport
         }
         #endregion
 
-        #region 等级评定
-        /// <summary>
-        /// 等级评定方法
-        /// </summary>
-        static void GradeEvaluation()
+        #region 删除学生信息
+        static void DeleteStudentByName()
         {
-            Console.WriteLine("=== 等级评定 ===");
-            if (currentStudent == null)
+            Console.Write("请输入要删除的学生姓名：");
+            string nameToDelete = Console.ReadLine();
+
+            int deletedCount = students.RemoveAll(s => s.name == nameToDelete);
+            if (deletedCount > 0)
             {
-                Console.WriteLine("请先录入学生信息和成绩。");
-                return;
+                Console.WriteLine($"已删除 {deletedCount} 个名为 {nameToDelete} 的学生。");
             }
-            string grade;
-            if (currentStudent.avg >= 90)
-                grade = "A 优秀";
-            else if (currentStudent.avg >= 80)
-                grade = "B 良好";
-            else if (currentStudent.avg >= 70)
-                grade = "C 中等";
-            else if (currentStudent.avg >= 60)
-                grade = "D 及格";
-            else if (currentStudent.avg >= 0)
-                grade = "F 不及格";
             else
             {
-                Console.WriteLine("成绩无效，无法评定等级。");
-                Console.WriteLine();
-                return;
+                Console.WriteLine($"未找到名为 {nameToDelete} 的学生。");
             }
-            Console.WriteLine($"学生 {currentStudent.name} 的等级评定为：{grade}");
-            Console.WriteLine();
+        }
+        #endregion
+
+        #region 搜索学生信息
+        static void SearchStudentByName()
+        {
+            Console.Write("请输入要搜索的学生姓名：");
+            string nameToSearch = Console.ReadLine();
+            List<Student> foundStudents = students.Where(s => s.name.IndexOf(nameToSearch, StringComparison.OrdinalIgnoreCase) >= 0).ToList();
+            if (foundStudents.Count > 0)
+            {
+                Console.WriteLine($"找到 {foundStudents.Count} 个名字中包含 {nameToSearch} 的学生：");
+                foreach (Student student in foundStudents)
+                {
+                    Console.WriteLine($"姓名：{student.name}，学号：{student.id}，年龄：{student.age} 岁");
+                    Console.WriteLine($"总分：{student.sum}，平均分：{student.avg:f2}");
+                    Console.WriteLine();
+                }
+            }
+            else
+            {
+                Console.WriteLine($"未找到名为 {nameToSearch} 的学生。");
+            }
         }
         #endregion
 
@@ -117,39 +135,40 @@ namespace StuInfoImport
             Student student = new Student();
             do
             {
-                Console.WriteLine("=== 学生信息评定器 v2.0 ===");
-                Console.WriteLine("1. 录入学生信息和成绩\n2. 查看等级评定\n3. 重新输入\n0. 退出程序");
+                Console.WriteLine("=== 学生名单管理器 ===");
+                Console.WriteLine($"当前共有 {students.Count} 名学生");
+                Console.WriteLine("1. 添加学生\n2. 删除学生（按姓名）\n3. 显示名单\n4. 搜索学生\n0. 退出");
                 Console.Write("请选择：");
                 string choice = Console.ReadLine();
                 switch (choice)
                 {
                     case "1":
                         Console.Clear();
-                        if (currentStudent != null)
-                        {
-                            Console.WriteLine("已有学生信息。如需覆盖，请使用 3");
-                            Console.WriteLine();
-                            break;
-                        }
-                        currentStudent = new Student();
                         Console.WriteLine("=== 学生信息成绩录入 ===");
                         StudentInfoImport(false);
                         break;
                     case "2":
                         Console.Clear();
-                        GradeEvaluation();
+                        Console.WriteLine("=== 删除学生信息 ===");
+                        DeleteStudentByName();
                         break;
                     case "3":
                         Console.Clear();
-                        if (currentStudent == null)
+                        Console.WriteLine("=== 学生名单 ===");
+                        int i = 0;
+                        foreach (Student s in students)
                         {
-                            Console.WriteLine("请先录入学生信息和成绩。");
+                            i++;
+                            Console.WriteLine($"=== 学生 {i} / {students.Count} ===");
+                            Console.WriteLine($"姓名：{s.name}，学号：{s.id}，年龄：{s.age} 岁");
+                            Console.WriteLine($"总分：{s.sum}，平均分：{s.avg:f2}");
                             Console.WriteLine();
-                            break;
                         }
-                        Console.WriteLine($"=== 修改学生：{currentStudent.name} ===");
-                        Console.WriteLine("提示：留空以保留当前值。");
-                        StudentInfoImport(true);
+                        break;
+                    case "4":
+                        Console.Clear();
+                        Console.WriteLine("=== 搜索学生信息 ===");
+                        SearchStudentByName();
                         break;
                     case "0":
                         return;
